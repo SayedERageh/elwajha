@@ -59,7 +59,7 @@ export default function Navbar() {
                         </li>
 
                         <li>
-                            <Link href="#contact">تواصل معنا</Link>
+                            <Link href="/contact">تواصل معنا</Link>
                         </li>
 
                         {/* DROPDOWN */}

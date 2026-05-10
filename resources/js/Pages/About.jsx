@@ -5,11 +5,11 @@ import Testimonials from '@/Components/Home/Testimonials'
 import TeamPricing from '@/Components/Home/TeamPricing'
 import Faq from '@/Components/Home/Faq'
 import Contact from '@/Components/Home/Contact'
+import { Head } from '@inertiajs/react'
 
 export default function About() {
     return (
         <MainLayout>
-   import { Head } from '@inertiajs/react'
 
             <Head title=" من هي شركة الواجهه الشيخ زايد" />
             <AboutSection />

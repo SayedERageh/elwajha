@@ -101,7 +101,7 @@ export default function Portfolio() {
                                 <div className="image-container">
 
                                     <img
-                                        src={`http://127.0.0.1:8000/storage/${project.image}`}
+                                        src={`http://127.0.0.1:8000/uploads/${project.image}`}
                                         className="img-fluid"
                                         alt={project.title}
                                         loading="lazy"
@@ -112,7 +112,7 @@ export default function Portfolio() {
                                         <div className="overlay-content">
 
                                             <a
-                                                href={`http://127.0.0.1:8000/storage/${project.image}`}
+                                                href={`http://127.0.0.1:8000/uploads/${project.image}`}
                                                 className="glightbox zoom-link"
                                                 title={project.title}
                                             >
@@ -120,7 +120,7 @@ export default function Portfolio() {
                                             </a>
 
                                             <a
-                                                href={project.demo_url || `/portfolio/${project.slug}`}
+                                                href={project.demo_url || `/uploads/${project.slug}`}
                                                 className="details-link"
                                             >
                                                 <i className="bi bi-arrow-right"></i>
