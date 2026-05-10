@@ -9,7 +9,9 @@ import Contact from '@/Components/Home/Contact'
 export default function About() {
     return (
         <MainLayout>
+   import { Head } from '@inertiajs/react'
 
+            <Head title=" من هي شركة الواجهه الشيخ زايد" />
             <AboutSection />
 
             <TeamPricing />

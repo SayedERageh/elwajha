@@ -8,10 +8,11 @@ import Portfolio from '../Components/Home/Portfolio'
 import TeamPricing from '../Components/Home/TeamPricing'
 import Faq from '../Components/Home/Faq'
 import Contact from '../Components/Home/Contact'
-
+import { Head } from '@inertiajs/react'
 export default function Home() {
     return (
         <MainLayout>
+            <Head title="الرئيسية - الواجهة للدعايه وتصميم المواقع الشيخ زايد" />
 
             <Hero />
             <Services />

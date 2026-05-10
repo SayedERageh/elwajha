@@ -23,8 +23,25 @@ Route::get('/services', function () {
 Route::get('/portfolio', function () {
     return Inertia::render('Portfolio');
 });
-Route::get('/portfolio-details', function () {
+use App\Models\Category;
+use App\Models\Portfolio;
 
-    return Inertia::render('PortfolioDetails');
+Route::get('/categories', function () {
+
+    return Category::all();
+
+});
+
+Route::get('/portfolios', function () {
+
+    return Portfolio::with('category')->get();
+
+});
+
+Route::get('/portfolio/{slug}', function ($slug) {
+
+    return Portfolio::with('category')
+        ->where('slug', $slug)
+        ->firstOrFail();
 
 });
