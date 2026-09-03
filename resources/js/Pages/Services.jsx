@@ -1,21 +1,11 @@
 import MainLayout from '@/Layouts/MainLayout'
-
 import ServicesSection from '@/Components/Home/Services'
-import Steps from '@/Components/Home/Steps'
-import Testimonials from '@/Components/Home/Testimonials'
-import Contact from '@/Components/Home/Contact'
 
-export default function Services() {
+export default function Services({ categories = [] }) {
     return (
         <MainLayout>
 
-            <ServicesSection />
-
-            <Steps />
-
-            <Testimonials />
-
-            <Contact />
+            <ServicesSection categories={categories} />
 
         </MainLayout>
     )

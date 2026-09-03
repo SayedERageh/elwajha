@@ -1,13 +1,18 @@
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
 
 export default function Navbar() {
 
+    const { serviceCategories = [] } = usePage().props
+
     const [mobileOpen, setMobileOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
-    const [deepDropdownOpen, setDeepDropdownOpen] = useState(false)
+    const [deepDropdownOpen, setDeepDropdownOpen] = useState(null)
 
+    // ==========================================
     // Mobile Menu Lock
+    // ==========================================
+
     useEffect(() => {
 
         if (mobileOpen) {
@@ -16,16 +21,44 @@ export default function Navbar() {
             document.body.classList.remove('mobile-nav-active')
         }
 
+        return () => {
+            document.body.classList.remove('mobile-nav-active')
+        }
+
     }, [mobileOpen])
+
+
+    // ==========================================
+    // Close Mobile Menu
+    // ==========================================
+
+    const closeMobileMenu = () => {
+        setMobileOpen(false)
+        setDropdownOpen(false)
+        setDeepDropdownOpen(null)
+    }
+
 
     return (
 
-        <header id="header" className="header d-flex align-items-center sticky-top" dir='rtl'>
+        <header
+            id="header"
+            className="header d-flex align-items-center sticky-top"
+            dir="rtl"
+        >
 
             <div className="container position-relative d-flex align-items-center justify-content-between">
 
-                {/* LOGO */}
-                <Link href="/" className="logo d-flex align-items-center me-auto me-xl-0">
+
+                {/* ==========================================
+                    LOGO
+                ========================================== */}
+
+                <Link
+                    href="/"
+                    className="logo d-flex align-items-center me-auto me-xl-0"
+                    onClick={closeMobileMenu}
+                >
 
                     <h1 className="sitename">
                         الواجهة
@@ -33,111 +66,265 @@ export default function Navbar() {
 
                 </Link>
 
-                {/* NAV */}
-                <nav id="navmenu" className="navmenu">
+
+                {/* ==========================================
+                    NAVIGATION
+                ========================================== */}
+
+                <nav
+                    id="navmenu"
+                    className={`navmenu ${mobileOpen ? 'mobile-nav-active' : ''}`}
+                >
 
                     <ul>
 
-                        <li>
-                            <Link href="/">الرئيسية</Link>
-                        </li>
+                        {/* الرئيسية */}
 
                         <li>
-                            <Link href="/about">من نحن</Link>
+                            <Link
+                                href="/"
+                                onClick={closeMobileMenu}
+                            >
+                                الرئيسية
+                            </Link>
                         </li>
+
+
+                        {/* من نحن */}
 
                         <li>
-                            <Link href="/services">خدماتنا</Link>
+                            <Link
+                                href="/about"
+                                onClick={closeMobileMenu}
+                            >
+                                من نحن
+                            </Link>
                         </li>
 
-                        <li>
-                            <Link href="/portfolio">أعمالنا</Link>
-                        </li>
 
-                        <li>
-                            <Link href="/pricing">الباقات</Link>
-                        </li>
+                        {/* ==========================================
+                            الخدمات
+                        ========================================== */}
 
-                        <li>
-                            <Link href="/contact">تواصل معنا</Link>
-                        </li>
+                        <li
+                            className={`dropdown ${dropdownOpen ? 'active' : ''}`}
+                        >
 
-                        {/* DROPDOWN */}
-                        <li className={`dropdown ${dropdownOpen ? 'dropdown-active' : ''}`}>
+                            <Link
+                                href="/services"
+                                onClick={(e) => {
 
-                            <button
-                                type="button"
-                                className="dropdown-btn"
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                    if (window.innerWidth < 1200) {
+                                        e.preventDefault()
+                                        setDropdownOpen(!dropdownOpen)
+                                    }
+
+                                }}
                             >
 
-                                <span>المزيد</span>
-                                <i className="bi bi-chevron-down"></i>
+                                <span>
+                                    خدماتنا
+                                </span>
 
-                            </button>
+                                <i className="bi bi-chevron-down toggle-dropdown"></i>
+
+                            </Link>
+
+
+                            {/* SERVICES DROPDOWN */}
 
                             <ul>
 
-                                <li><a href="#faq">الأسئلة الشائعة</a></li>
+                                {/* جميع الخدمات */}
 
-                                <li><a href="#testimonials">آراء العملاء</a></li>
+                                <li>
+                                    <Link
+                                        href="/services"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        جميع الخدمات
+                                    </Link>
+                                </li>
 
-                                <li className={`dropdown ${deepDropdownOpen ? 'dropdown-active' : ''}`}>
 
-                                    <button
-                                        type="button"
-                                        className="dropdown-btn"
-                                        onClick={() => setDeepDropdownOpen(!deepDropdownOpen)}
+                                {/* CATEGORIES */}
+
+                                {serviceCategories.map((category) => (
+
+                                    <li
+                                        key={category.id}
+                                        className={`dropdown ${
+                                            deepDropdownOpen === category.id
+                                                ? 'active'
+                                                : ''
+                                        }`}
                                     >
 
-                                        <span>تفاصيل الخدمات</span>
-                                        <i className="bi bi-chevron-down"></i>
+                                        <Link
+                                            href="#"
+                                            onClick={(e) => {
 
-                                    </button>
+                                                if (window.innerWidth < 1200) {
 
-                                    <ul>
+                                                    e.preventDefault()
 
-                                        <li><a href="#">تصميم مواقع</a></li>
-                                        <li><a href="#">متاجر إلكترونية</a></li>
-                                        <li><a href="#">أنظمة إدارة</a></li>
+                                                    setDeepDropdownOpen(
+                                                        deepDropdownOpen === category.id
+                                                            ? null
+                                                            : category.id
+                                                    )
 
-                                    </ul>
+                                                }
 
-                                </li>
+                                            }}
+                                        >
+
+                                            <span>
+                                                {category.name}
+                                            </span>
+
+                                            <i className="bi bi-chevron-down toggle-dropdown"></i>
+
+                                        </Link>
+
+
+                                        {/* SERVICES */}
+
+                                        <ul>
+
+                                            {category.services?.map((service) => (
+
+                                                <li key={service.id}>
+
+                                                    <Link
+                                                        href={`/services/${service.slug}`}
+                                                        onClick={closeMobileMenu}
+                                                    >
+
+                                                        {service.name}
+
+                                                    </Link>
+
+                                                </li>
+
+                                            ))}
+
+                                        </ul>
+
+                                    </li>
+
+                                ))}
 
                             </ul>
 
                         </li>
 
+
+                        {/* أعمالنا */}
+
+                        <li>
+                            <Link
+                                href="/portfolio"
+                                onClick={closeMobileMenu}
+                            >
+                                أعمالنا
+                            </Link>
+                        </li>
+
+
+                        {/* الباقات */}
+
+                        <li>
+                            <Link
+                                href="/pricing"
+                                onClick={closeMobileMenu}
+                            >
+                                الباقات
+                            </Link>
+                        </li>
+
+
+                        {/* تواصل معنا */}
+
+                        <li>
+                            <Link
+                                href="/contact"
+                                onClick={closeMobileMenu}
+                            >
+                                تواصل معنا
+                            </Link>
+                        </li>
+
+
+                        {/* المقالات */}
+
+                        <li>
+                            <Link
+                                href="/blog"
+                                onClick={closeMobileMenu}
+                            >
+                                المقالات
+                            </Link>
+                        </li>
+
                     </ul>
 
-                    {/* MOBILE TOGGLE */}
+
+                    {/* ==========================================
+                        MOBILE TOGGLE
+                    ========================================== */}
+
                     <button
                         className="mobile-nav-toggle d-xl-none"
                         onClick={() => setMobileOpen(!mobileOpen)}
+                        type="button"
+                        aria-label="فتح القائمة"
                     >
 
-                        <i className={`bi ${mobileOpen ? 'bi-x' : 'bi-list'}`}></i>
+                        <i
+                            className={`bi ${
+                                mobileOpen
+                                    ? 'bi-x'
+                                    : 'bi-list'
+                            }`}
+                        ></i>
 
                     </button>
 
                 </nav>
 
-                {/* CTA BUTTON (IMPORTANT 🔥) */}
+
+                {/* ==========================================
+                    SOCIAL LINKS
+                ========================================== */}
+
                 <div className="header-social-links">
+
+                    {/* Facebook */}
 
                     <a
                         href="https://www.facebook.com/eloghaa"
                         target="_blank"
                         rel="noreferrer"
+                        aria-label="Facebook"
                     >
+
                         <i className="bi bi-facebook"></i>
-                    </a>        <a
-   href="https://wa.me/201044946388"
-                           target="_blank"
+
+                    </a>
+
+
+                    {/* WhatsApp */}
+
+                    <a
+                        href="https://wa.me/201044946388"
+                        target="_blank"
                         rel="noreferrer"
+                        aria-label="WhatsApp"
                     >
+
                         <i className="bi bi-whatsapp"></i>
+
                     </a>
 
                 </div>
@@ -148,3 +335,4 @@ export default function Navbar() {
 
     )
 }
+  

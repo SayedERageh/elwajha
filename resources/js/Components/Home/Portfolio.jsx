@@ -9,59 +9,110 @@ export default function Portfolio() {
     const [categories, setCategories] = useState([])
     const [filterKey, setFilterKey] = useState('*')
 
-    // 📦 fetch data
+    // 🔥 API URL
+    const API_URL = import.meta.env.VITE_APP_URL
+
+    // 📦 Fetch Data
     useEffect(() => {
 
-        axios.get('http://127.0.0.1:8000/api/categories')
-            .then(res => setCategories(res.data))
+        const fetchData = async () => {
 
-        axios.get('http://127.0.0.1:8000/api/portfolios')
-            .then(res => setProjects(res.data))
+            try {
 
-    }, [])
+                const [categoriesRes, projectsRes] = await Promise.all([
+                    axios.get(`${API_URL}/api/categories`),
+                    axios.get(`${API_URL}/api/portfolios`)
+                ])
 
-    // 🔥 Isotope init
-    useEffect(() => {
+                setCategories(categoriesRes.data)
+                setProjects(projectsRes.data)
 
-        if (window.Isotope) {
+            } catch (error) {
 
-            const grid = document.querySelector('.portfolio-grid')
+                console.error('Error fetching data:', error)
 
-            if (grid) {
-                isotope.current = new window.Isotope(grid, {
-                    itemSelector: '.portfolio-item',
-                    layoutMode: 'fitRows'
-                })
             }
+
         }
 
-        return () => isotope.current?.destroy()
+        fetchData()
+
+    }, [API_URL])
+
+    // 🔥 Isotope Init
+    useEffect(() => {
+
+        if (!projects.length) return
+
+        const grid = document.querySelector('.portfolio-grid')
+
+        if (window.Isotope && grid) {
+
+            isotope.current = new window.Isotope(grid, {
+                itemSelector: '.portfolio-item',
+                layoutMode: 'fitRows'
+            })
+
+        }
+
+        return () => {
+
+            if (isotope.current) {
+                isotope.current.destroy()
+            }
+
+        }
 
     }, [projects])
 
-    // 🔥 filter
+    // 🔥 Filter
     useEffect(() => {
+
         if (isotope.current) {
-            isotope.current.arrange({ filter: filterKey })
+
+            isotope.current.arrange({
+                filter: filterKey
+            })
+
         }
+
     }, [filterKey])
 
     return (
+
         <section id="portfolio" className="portfolio section">
 
             {/* Title */}
-            <div className="container section-title" data-aos="fade-up">
-                <span className="description-title">Portfolio</span>
-                <h2>Portfolio</h2>
+            <div
+                className="container section-title"
+                data-aos="fade-up"
+            >
+
+                <span className="description-title">
+                    ســابــقــة الاعـــمــال
+                </span>
+
+                <h2>
+                    ســابــقــة الاعــمــال
+                </h2>
+
                 <p>
-                    Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit
+                    كل مشروع قمنا بتنفيذه يمثل قصة نجاح جديدة مع شركة الواجهة، حيث نجمع بين الإبداع، الأداء، والتصميم الاحترافي لتحقيق أفضل تجربة رقمية لعملائنا.
                 </p>
+
             </div>
 
-            <div className="container" data-aos="fade-up" data-aos-delay="100">
+            <div
+                className="container"
+                data-aos="fade-up"
+                data-aos-delay="100"
+            >
 
                 {/* Filters */}
-                <div className="portfolio-filters-wrapper" data-aos="fade-up">
+                <div
+                    className="portfolio-filters-wrapper"
+                    data-aos="fade-up"
+                >
 
                     <ul className="portfolio-filters isotope-filters">
 
@@ -72,14 +123,22 @@ export default function Portfolio() {
                             All Projects
                         </li>
 
-                        {categories.map(cat => (
+                        {categories.map((cat) => (
+
                             <li
                                 key={cat.id}
-                                className={filterKey === `.filter-${cat.slug}` ? 'filter-active' : ''}
-                                onClick={() => setFilterKey(`.filter-${cat.slug}`)}
+                                className={
+                                    filterKey === `.filter-${cat.slug}`
+                                        ? 'filter-active'
+                                        : ''
+                                }
+                                onClick={() =>
+                                    setFilterKey(`.filter-${cat.slug}`)
+                                }
                             >
                                 {cat.name}
                             </li>
+
                         ))}
 
                     </ul>
@@ -87,9 +146,13 @@ export default function Portfolio() {
                 </div>
 
                 {/* Grid */}
-                <div className="row gy-4 portfolio-grid isotope-container" data-aos="fade-up" data-aos-delay="200">
+                <div
+                    className="row gy-4 portfolio-grid isotope-container"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                >
 
-                    {projects.map(project => (
+                    {projects.map((project) => (
 
                         <div
                             key={project.id}
@@ -98,30 +161,40 @@ export default function Portfolio() {
 
                             <div className="portfolio-card">
 
+                                {/* Image */}
                                 <div className="image-container">
 
                                     <img
-                                        src={`http://127.0.0.1:8000/uploads/${project.image}`}
+                                        src={`${API_URL}/uploads/${project.image}`}
                                         className="img-fluid"
                                         alt={project.title}
                                         loading="lazy"
                                     />
 
+                                    {/* Overlay */}
                                     <div className="overlay">
 
                                         <div className="overlay-content">
 
+                                            {/* Zoom */}
                                             <a
-                                                href={`http://127.0.0.1:8000/uploads/${project.image}`}
+                                                href={`${API_URL}/uploads/${project.image}`}
                                                 className="glightbox zoom-link"
                                                 title={project.title}
                                             >
                                                 <i className="bi bi-zoom-in"></i>
                                             </a>
 
+                                            {/* Details */}
                                             <a
-                                                href={project.demo_url || `/uploads/${project.slug}`}
+                                                href={
+                                                    project.demo_url
+                                                        ? project.demo_url
+                                                        : '#'
+                                                }
                                                 className="details-link"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                             >
                                                 <i className="bi bi-arrow-right"></i>
                                             </a>
@@ -132,9 +205,17 @@ export default function Portfolio() {
 
                                 </div>
 
+                                {/* Content */}
                                 <div className="content">
-                                    <h3>{project.title}</h3>
-                                    <p>{project.short_description}</p>
+
+                                    <h3>
+                                        {project.title}
+                                    </h3>
+
+                                    <p>
+                                        {project.short_description}
+                                    </p>
+
                                 </div>
 
                             </div>
@@ -148,5 +229,7 @@ export default function Portfolio() {
             </div>
 
         </section>
+
     )
+
 }

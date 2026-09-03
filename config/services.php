@@ -21,7 +21,18 @@ return [
     'resend' => [
         'key' => env('RESEND_API_KEY'),
     ],
-
+'openrouter' => [
+    'key' => env('OPENROUTER_API_KEY'),
+    'url' => env(
+        'OPENROUTER_API_URL',
+        'https://openrouter.ai/api/v1'
+    ),
+    'ai_articles' => [
+    'daily' => env('AI_DAILY_ARTICLES', 3),
+    'hour' => env('AI_ARTICLE_HOUR', 3),
+    'minute' => env('AI_ARTICLE_MINUTE', 0),
+],
+],
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
