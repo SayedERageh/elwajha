@@ -4,15 +4,15 @@ import About from '../Components/Home/About'
 import Services from '../Components/Home/Services'
 import Steps from '../Components/Home/Steps'
 import Testimonials from '../Components/Home/Testimonials'
-import Portfolio from '../Components/Home/Portfolio'
-import TeamPricing from '../Components/Home/TeamPricing'
+import SEO from '../Components/Common/Seo'
+
 import Faq from '../Components/Home/Faq'
 import Contact from '../Components/Home/Contact'
 import { Head } from '@inertiajs/react'
-export default function Home() {
+export default function Home({ seo }) {
     return (
         <MainLayout>
-            <Head title="الرئيسية - الواجهة للدعايه وتصميم المواقع الشيخ زايد" />
+            <SEO seo={seo} />
 
             <Hero />
             <Services />

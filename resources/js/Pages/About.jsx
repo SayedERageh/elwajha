@@ -5,13 +5,15 @@ import Testimonials from '@/Components/Home/Testimonials'
 import TeamPricing from '@/Components/Home/TeamPricing'
 import Faq from '@/Components/Home/Faq'
 import Contact from '@/Components/Home/Contact'
-import { Head } from '@inertiajs/react'
+import SEO from '../Components/Common/Seo'
 
-export default function About() {
+
+export default function About({ seo }) {
     return (
         <MainLayout>
 
-            <Head title=" من هي شركة الواجهه الشيخ زايد" />
+            <SEO seo={seo} />
+
             <AboutSection />
 
             <TeamPricing />

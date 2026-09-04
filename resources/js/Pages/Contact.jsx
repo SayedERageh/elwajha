@@ -2,12 +2,13 @@ import MainLayout from '@/Layouts/MainLayout'
 
 import ContactSection from '@/Components/Home/Contact'
 import Faq from '@/Components/Home/Faq'
-import { Head } from '@inertiajs/react'
-export default function Contact() {
+import SEO from '../Components/Common/Seo'
+
+export default function Contact({ seo }) {
     return (
         <MainLayout>
 
-            <Head title="اتصل بشركة الواجهه الشيخ زايد" />
+            <SEO seo={seo} />
 
             <ContactSection />
 

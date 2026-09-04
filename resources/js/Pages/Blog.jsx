@@ -1,11 +1,12 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
+import SEO from '../Components/Common/Seo'
 
 
-export default function Blog({ posts = [], categories = [] }) {
+export default function Blog({ posts = [], categories = [] ,seo}) {
     return (
         <MainLayout>
-            <Head title="الرئيسية - الواجهة للدعايه وتصميم المواقع الشيخ زايد" />
+            <SEO seo={seo} />
 
             <section id="blog" className="blog section" dir="rtl">
 
