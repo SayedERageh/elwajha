@@ -6,7 +6,6 @@ import { Head } from '@inertiajs/react'
 export default function Contact() {
     return (
         <MainLayout>
-            import { Head } from '@inertiajs/react'
 
             <Head title="اتصل بشركة الواجهه الشيخ زايد" />
 

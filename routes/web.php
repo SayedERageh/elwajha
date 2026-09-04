@@ -22,6 +22,9 @@ Route::get('/about', function () {
 Route::get('/pricing', function () {
     return Inertia::render('Pricing');
 })->name('pricing');
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');
 
 Route::get('/services', [
     ServiceController::class,

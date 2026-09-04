@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             BlogDesignSecondSeeder::class,
             BlogDesignThirdSeeder::class,
             BlogDesignFourthSeeder::class,
+            PageSeoSeeder::class,
 
             ServiceExpansionSeeder::class,
         ]);

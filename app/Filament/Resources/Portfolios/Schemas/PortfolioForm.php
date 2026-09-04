@@ -7,10 +7,6 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -22,87 +18,64 @@ class PortfolioForm
         return $schema
             ->components([
 
-                Tabs::make('portfolio_tabs')
-                    ->id('portfolio-tabs')
-                    ->persistTab()
-                    ->persistTabInQueryString('portfolio-tab')
+                Section::make('إضافة عمل جديد')
+                    ->schema([
 
-                    ->tabs([
-
-                        // 🟢 Tab 1: بيانات المشروع الأساسية
-                        Tab::make('بيانات المشروع')
+                        Grid::make(2)
                             ->schema([
 
-                                Section::make()
-                                    ->schema([
+                                TextInput::make('title')
+                                    ->label('اسم المشروع')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->columnSpan(1),
 
-                                        Grid::make(2)
-                                            ->schema([
+                                TextInput::make('slug')
+                                    ->label('الرابط')
+                                    ->maxLength(255)
+                                    ->unique(ignoreRecord: true)
+                                    ->helperText('اختياري - يمكن تركه فارغًا')
+                                    ->columnSpan(1),
 
-                                                TextInput::make('title')
-                                                    ->label('اسم المشروع')
-                                                    ->required()
-                                                    ->maxLength(255),
+                                Select::make('category_id')
+                                    ->label('القسم')
+                                    ->relationship('category', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->placeholder('اختر القسم - اختياري')
+                                    ->columnSpan(1),
 
-                                                TextInput::make('slug')
-                                                    ->label('الرابط')
-                                                    ->required()
-                                                    ->unique(ignoreRecord: true),
+                                TextInput::make('demo_url')
+                                    ->label('رابط المشروع')
+                                    ->url()
+                                    ->maxLength(255)
+                                    ->placeholder('https://example.com')
+                                    ->helperText('اختياري')
+                                    ->columnSpan(1),
 
-                                                Select::make('category_id')
-                                                    ->label('الصنف')
-                                                    ->relationship('category', 'name')
-                                                    ->searchable()
-                                                    ->preload()
-                                                    ->required(),
+                                FileUpload::make('image')
+                                    ->label('صورة المشروع')
+                                    ->image()
+                                    ->directory('portfolio')
+                                    ->disk('public')
+                                    ->imageEditor()
+                                    ->columnSpanFull(),
 
-                                                TextInput::make('demo_url')
-                                                    ->label('رابط الديمو')
-                                                    ->url()
-                                                    ->maxLength(255),
+                                Textarea::make('short_description')
+                                    ->label('وصف مختصر')
+                                    ->rows(3)
+                                    ->placeholder('وصف مختصر للمشروع - اختياري')
+                                    ->columnSpanFull(),
 
-                                            ]),
+                                RichEditor::make('description')
+                                    ->label('وصف المشروع')
+                                    ->placeholder('اكتب تفاصيل المشروع - اختياري')
+                                    ->columnSpanFull(),
 
-                                    ]),
-                            ]),
-
-                        // 🟡 Tab 2: الوصف
-                        Tab::make('الوصف')
-                            ->schema([
-
-                                Section::make()
-                                    ->schema([
-
-                                        Textarea::make('short_description')
-                                            ->label('وصف مختصر')
-                                            ->rows(3)
-                                            ->columnSpanFull(),
-
-                                        RichEditor::make('description')
-                                            ->label('الوصف الكامل')
-                                            ->columnSpanFull(),
-
-                                    ]),
-                            ]),
-
-                        // 🔵 Tab 3: الوسائط
-                        Tab::make('الوسائط')
-                            ->schema([
-
-                                Section::make()
-                                    ->schema([
-
-                                        FileUpload::make('image')
-                                            ->label('صورة المشروع')
-                                            ->image()
-                                            ->directory('portfolio')
-                                            ->disk('public')
-                                            ->imageEditor(),
-
-                                    ]),
                             ]),
 
                     ]),
+
             ]);
     }
 }

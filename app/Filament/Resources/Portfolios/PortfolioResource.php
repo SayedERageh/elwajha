@@ -18,8 +18,18 @@ class PortfolioResource extends Resource
 {
     protected static ?string $model = Portfolio::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+protected static ?string $navigationLabel = 'أعمال البورتفوليو';
 
+protected static string|\UnitEnum|null $navigationGroup = 'البورتفوليو';
+
+protected static ?int $navigationSort = 2;
+
+protected static string|BackedEnum|null $navigationIcon =
+    Heroicon::OutlinedPhoto;
+
+protected static ?string $modelLabel = 'عمل';
+
+protected static ?string $pluralModelLabel = 'أعمال البورتفوليو';
     public static function form(Schema $schema): Schema
     {
         return PortfolioForm::configure($schema);
